@@ -15,7 +15,10 @@ add_executable( ${PROJECT_NAME} ${SOURCES} )
 
 # ***************** Conan Integration ***************
 
-target_link_libraries( ${PROJECT_NAME} PRIVATE PACKAGE_MANAGER_CONAN_LIBS )
+#Full static link fix pthare segmentation fail
+# https://github.com/sewenew/redis-plus-plus/issues/356
+# https://stackoverflow.com/questions/9002264/starting-a-stdthread-with-static-linking-causes-segmentation-fault
+target_link_libraries( ${PROJECT_NAME} PRIVATE -Wl,--whole-archive pthread -Wl,--no-whole-archive PACKAGE_MANAGER_CONAN_LIBS )
 
 # ***************** Conan Integration ***************
 
